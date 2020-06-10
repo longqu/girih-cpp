@@ -36,4 +36,4 @@ private:
 
 } // namespace girih
 
-#endif
+#endif GIRIH_AFFINITY_
