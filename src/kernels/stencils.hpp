@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+namespace girih {
+
 ///
 /// \brief Abstract class using as an interface for all stencils
 ///
@@ -24,17 +26,17 @@ public:
 /// \brief Context of strategy design pattern for selecting stencil method
 ///
 template<typename real_t>
-class StencilContext {
+class StencilsContext {
 private:
     StencilsStrategy<real_t> *strategy_;
 
 public:
-    StencilContext(StencilsStrategy<real_t> *strategy = nullptr) : strategy_(strategy) {};
-    ~StencilContext() {
+    StencilsContext(StencilsStrategy<real_t> *strategy = nullptr) : strategy_(strategy) {};
+    ~StencilsContext() {
         delete this->strategy_;
     }
 
-    void set_strategy(StencilsStrategy<real_t> *strategy) {
+    void SetStrategy(StencilsStrategy<real_t> *strategy) {
         delete this->strategy_;
         this->strategy_ = strategy;
     }
@@ -69,25 +71,26 @@ public :
 
         for(int k = tmin; k < tmax; k += dt) {
             for(int j = ymin; j < ymax; j++) {
-                real_t * __restrict__ ux = &(u[1ULL*k*nnxy + j*nnx]);
-                real_t * __restrict__ vx = &(v[1ULL*k*nnxy + j*nnx]);
-        
+                real_t * __restrict__ ux = &(  u[1ULL*k*nnxy + j*nnx]);
+                real_t * __restrict__ vx = &(  v[1ULL*k*nnxy + j*nnx]);
+                real_t * __restrict__ rx = &(roc[1ULL*k*nnxy + j*nnx]);
+
                 #pragma simd
                 for(int i = xmin; i < xmax; i++) {
                     ux[i] = (real_t (2.0)) * vx[i] - ux[i] 
-                            + roc[i] * ( coef[0] * vx[i] 
-                                        + coef[1] * (vx[i+1]       + vx[i-1]     )          
-                                        + coef[1] * (vx[i+nnx]     + vx[i-nnx]   )       
-                                        + coef[1] * (vx[i+nnxy]    + vx[i-nnxy]  )     
-                                        + coef[2] * (vx[i+2]       + vx[i-2]     )         
-                                        + coef[2] * (vx[i+2*nnx]   + vx[i-2*nnx] )     
-                                        + coef[2] * (vx[i+2*nnxy]  + vx[i-2*nnxy])   
-                                        + coef[3] * (vx[i+3]       + vx[i-3]     )         
-                                        + coef[3] * (vx[i+3*nnx]   + vx[i-3*nnx] )     
-                                        + coef[3] * (vx[i+3*nnxy]  + vx[i-3*nnxy])   
-                                        + coef[4] * (vx[i+4]       + vx[i-4]     )          
-                                        + coef[4] * (vx[i+4*nnx]   + vx[i-4*nnx] )      
-                                        + coef[4] * (vx[i+4*nnxy]  + vx[i-4*nnxy]) 
+                            + rx[i] * ( coef[0] * vx[i] 
+                                      + coef[1] * (vx[i+1]       + vx[i-1]     )          
+                                      + coef[1] * (vx[i+nnx]     + vx[i-nnx]   )       
+                                      + coef[1] * (vx[i+nnxy]    + vx[i-nnxy]  )     
+                                      + coef[2] * (vx[i+2]       + vx[i-2]     )         
+                                      + coef[2] * (vx[i+2*nnx]   + vx[i-2*nnx] )     
+                                      + coef[2] * (vx[i+2*nnxy]  + vx[i-2*nnxy])   
+                                      + coef[3] * (vx[i+3]       + vx[i-3]     )         
+                                      + coef[3] * (vx[i+3*nnx]   + vx[i-3*nnx] )     
+                                      + coef[3] * (vx[i+3*nnxy]  + vx[i-3*nnxy])   
+                                      + coef[4] * (vx[i+4]       + vx[i-4]     )          
+                                      + coef[4] * (vx[i+4*nnx]   + vx[i-4*nnx] )      
+                                      + coef[4] * (vx[i+4*nnxy]  + vx[i-4*nnxy]) 
                                         );
                 }
             }
@@ -314,4 +317,5 @@ public :
     }
 };
 
+}
 #endif
