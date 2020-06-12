@@ -14,7 +14,7 @@ public:
     virtual ~StencilsStrategy() {};
     virtual void ComputeStencils(const int xmin, const int xmax,
                                  const int ymin, const int ymax,
-                                 const int tmin, const int tmax,const int dt,
+                                 const int zmin, const int zmax,const int dz,
                                  const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                                  real_t* __restrict__ u,
                                  const real_t* __restrict__ v,
@@ -43,13 +43,13 @@ public:
 
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax, const int dt,
+                         const int zmin, const int zmax, const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const {
-        this->strategy_->ComputeStencils(xmin,xmax,ymin,ymax,tmin,tmax,dt,nnx,nnxy,nnxyz,u,v,coef,roc);
+        this->strategy_->ComputeStencils(xmin,xmax,ymin,ymax,zmin,zmax,dz,nnx,nnxy,nnxyz,u,v,coef,roc);
     } 
 };
 
@@ -62,14 +62,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax, const int dt,
+                         const int zmin, const int zmax, const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override{
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(  u[1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(  v[1ULL*k*nnxy + j*nnx]);
@@ -107,14 +107,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax, const int dt,
+                         const int zmin, const int zmax, const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override {
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(u[1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(v[1ULL*k*nnxy + j*nnx]);
@@ -139,14 +139,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax,const int dt,
+                         const int zmin, const int zmax,const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override {
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(u   [1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(v   [1ULL*k*nnxy + j*nnx]);
@@ -172,14 +172,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax,const int dt,
+                         const int zmin, const int zmax,const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override {
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(u   [1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(v   [1ULL*k*nnxy + j*nnx]);
@@ -205,14 +205,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax,const int dt,
+                         const int zmin, const int zmax,const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override {
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(u   [1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(v   [1ULL*k*nnxy + j*nnx]);
@@ -247,14 +247,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax,const int dt,
+                         const int zmin, const int zmax,const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override {
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(u   [1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(v   [1ULL*k*nnxy + j*nnx]);
@@ -284,14 +284,14 @@ public :
      
     void ComputeStencils(const int xmin, const int xmax,
                          const int ymin, const int ymax,
-                         const int tmin, const int tmax, const int dt,
+                         const int zmin, const int zmax, const int dz,
                          const int nnx, const uint64_t nnxy, const uint64_t nnxyz,
                          real_t* __restrict__ u,
                          const real_t* __restrict__ v,
                          const real_t* __restrict__ coef,
                          const real_t* __restrict__ roc) const override{
 
-        for(int k = tmin; k < tmax; k += dt) {
+        for(int k = zmin; k < zmax; k += dz) {
             for(int j = ymin; j < ymax; j++) {
                 real_t * __restrict__ ux = &(u[1ULL*k*nnxy + j*nnx]);
                 real_t * __restrict__ vx = &(v[1ULL*k*nnxy + j*nnx]);
