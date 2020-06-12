@@ -19,7 +19,7 @@
 
 #include "affinity.hpp"
 
-using namespace girih;
+namespace girih {
 
 Affinity::Affinity() {
 
@@ -322,3 +322,6 @@ void Affinity::get_string(std::string& str,
 
     std::cout << oss.str() << std::endl;
 }
+
+}
+
